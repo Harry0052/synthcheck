@@ -8,7 +8,7 @@
 | P04 | PASS | P05 |
 | P05 | PASS | P06 |
 | P06 | PASS | P07 |
-| P07 | not started | |
+| P07 | PASS | none |
 
 ## P01 — Research overlap and confirm the MVP
 
@@ -192,6 +192,49 @@ Traversal through the same CLI exits `2` with `path_traversal` on stderr.
 - `README.md`
 - `SECURITY.md`
 
-**Open issues:** hosted CI has not run yet.
+**Open issues:** none for this gate. Hosted CI is recorded in P07.
 
 **Next phase:** P07
+
+## P07 — Publish and verify on GitHub
+
+**Phase and status:** P07 PASS
+
+**Files changed:**
+
+- `docs/grokbot-progress.md` (this record, committed after the tag)
+
+**Commands and results:**
+
+- Authorized destination: `https://github.com/Harry0052/synthcheck`, public, MIT. `gh repo view` reported `visibility: PUBLIC`. The tag URL `https://raw.githubusercontent.com/Harry0052/synthcheck/v0.1.0/LICENSE` starts with `MIT License`.
+- Remote `origin` is `https://github.com/Harry0052/synthcheck`. Push of `cursor/synthcheck-mvp-8f4d` succeeded. `GET /user` returned HTTP 403 for this token, so the login name was not readable. The remote and the public repository match the authorized destination.
+- Pull request: https://github.com/Harry0052/synthcheck/pull/1
+- Tested commit: `2fac23d2993206d5df0b986ba18430fdfbf534f9`
+- Push CI: https://github.com/Harry0052/synthcheck/actions/runs/45116663002 success
+- Pull request CI: https://github.com/Harry0052/synthcheck/actions/runs/45116677258 success (`test` passed)
+- Annotated tag `v0.1.0` points at that commit. `git rev-parse v0.1.0^{}` is `2fac23d2993206d5df0b986ba18430fdfbf534f9`. The tag was pushed. `main` was not updated.
+- Fresh clone of `v0.1.0` into `/tmp/synthcheck-tag`, install with `PYTHONNOUSERSITE=1`, and the README demo exited `1`. North coverage was `0.8` versus `0.4` (fail) and south was `0.8` versus `1` (fail). Integrity was pass.
+
+**Artifact paths:**
+
+- Tag `v0.1.0`
+- https://github.com/Harry0052/synthcheck/pull/1
+- https://github.com/Harry0052/synthcheck/actions/runs/45116677258
+
+**Open issues:**
+
+- This progress commit is newer than the tag. It does not change the checker. The owner merges the pull request.
+
+**Next phase:** none. The owner merges.
+
+**Demo command from the tag:**
+
+```bash
+git clone --branch v0.1.0 --depth 1 https://github.com/Harry0052/synthcheck
+cd synthcheck
+python -m pip install -e ".[dev]"
+python -m synthcheck compare fixtures/reference fixtures/changed \
+  --contract fixtures/contract/clinic.json \
+  --json reports/demo.json \
+  --html reports/demo.html
+```
