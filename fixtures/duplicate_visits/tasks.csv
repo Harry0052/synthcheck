@@ -1,0 +1,11 @@
+task_id,visit_id,kind
+T01,V01,follow_up
+T02,V01,follow_up
+T03,V02,follow_up
+T04,V03,follow_up
+T05,V04,follow_up
+T06,V06,follow_up
+T07,V06,follow_up
+T08,V07,follow_up
+T09,V08,follow_up
+T10,V09,follow_up

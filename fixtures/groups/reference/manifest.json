@@ -1,0 +1,27 @@
+{
+  "bundle_version": "1",
+  "generator": {
+    "name": "synthcheck-fixture-generator",
+    "seed": 16,
+    "version": "0.1.0"
+  },
+  "provenance": {
+    "path": "provenance.json",
+    "sha256": "73397e0e26b53ef495cd93f8446b38b08801ab7de1560c3df5310e03f310ee73"
+  },
+  "synthetic_only": true,
+  "tables": {
+    "patients": {
+      "path": "patients.csv",
+      "sha256": "e97dd2cd75b6554c36f53f92c84d10809d3eb1d3012e5cd7f10e8b737fec2b42"
+    },
+    "tasks": {
+      "path": "tasks.csv",
+      "sha256": "9fc6e6564c507fef66971a353a2ba86bddb64f5844190f31d76fd94cd97d83cf"
+    },
+    "visits": {
+      "path": "visits.csv",
+      "sha256": "3036555d14903db5209cb9e1d191f1bb9c3e4f8502ed0ea2a84d8f53c2469b34"
+    }
+  }
+}

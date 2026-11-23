@@ -1,0 +1,102 @@
+{
+  "contract_version": "1",
+  "max_csv_bytes": 1000000,
+  "max_rows": 100000,
+  "queries": [
+    {
+      "formula": "count of distinct visits.visit_id grouped by visits.clinic_id",
+      "grain": [
+        {"column": "visits.clinic_id"}
+      ],
+      "id": "distinct_visits_by_clinic",
+      "measure": {
+        "column": "visits.visit_id",
+        "op": "count_distinct"
+      },
+      "tolerance": {"kind": "absolute", "value": 0},
+      "unit": "visits"
+    },
+    {
+      "formula": "distinct visits with a follow_up task divided by distinct visits, grouped by clinic and month",
+      "grain": [
+        {"column": "visits.clinic_id"},
+        {"alias": "month", "column": "visits.visited_on", "op": "month"}
+      ],
+      "id": "visit_follow_up_coverage_by_month",
+      "measure": {
+        "denominator": {
+          "column": "visits.visit_id",
+          "op": "count_distinct"
+        },
+        "numerator": {
+          "column": "visits.visit_id",
+          "op": "count_distinct",
+          "where": {
+            "child_columns": ["visit_id"],
+            "child_table": "tasks",
+            "filters": [
+              {"column": "tasks.kind", "op": "eq", "value": "follow_up"}
+            ],
+            "op": "exists",
+            "parent_columns": ["visit_id"]
+          }
+        },
+        "op": "ratio"
+      },
+      "tolerance": {"kind": "absolute", "value": 0.05},
+      "unit": "proportion"
+    },
+    {
+      "formula": "count of distinct tasks.task_id",
+      "grain": [],
+      "id": "distinct_assigned_tasks",
+      "measure": {
+        "column": "tasks.task_id",
+        "op": "count_distinct"
+      },
+      "tolerance": {"kind": "absolute", "value": 0},
+      "unit": "tasks"
+    }
+  ],
+  "tables": {
+    "patients": {
+      "columns": {
+        "clinic_id": {"nullable": false, "type": "string"},
+        "patient_id": {"nullable": false, "type": "string"}
+      },
+      "primary_key": ["patient_id"]
+    },
+    "tasks": {
+      "columns": {
+        "kind": {"nullable": false, "type": "string"},
+        "task_id": {"nullable": false, "type": "string"},
+        "visit_id": {"nullable": false, "type": "string"}
+      },
+      "foreign_keys": [
+        {
+          "columns": ["visit_id"],
+          "name": "tasks_visit_id_fkey",
+          "references": {"columns": ["visit_id"], "table": "visits"}
+        }
+      ],
+      "primary_key": ["task_id"]
+    },
+    "visits": {
+      "columns": {
+        "clinic_id": {"nullable": false, "type": "string"},
+        "patient_id": {"nullable": false, "type": "string"},
+        "visit_id": {"nullable": false, "type": "string"},
+        "visited_on": {"nullable": false, "type": "timestamp"}
+      },
+      "foreign_keys": [
+        {
+          "columns": ["patient_id"],
+          "name": "visits_patient_id_fkey",
+          "references": {"columns": ["patient_id"], "table": "patients"}
+        }
+      ],
+      "primary_key": ["visit_id"]
+    }
+  },
+  "timezone": "UTC"
+}

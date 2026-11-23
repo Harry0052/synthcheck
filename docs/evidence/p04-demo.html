@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SynthCheck report</title>
+<style>
+body { font-family: sans-serif; margin: 2rem; line-height: 1.4; }
+table { border-collapse: collapse; margin: 1rem 0; }
+th, td { border: 1px solid #ccc; padding: 0.3rem 0.6rem; text-align: left; }
+</style>
+</head>
+<body>
+<h1>SynthCheck report</h1>
+<p>Status: <strong>fail</strong>. Contract version 1. Timezone UTC.</p>
+<p>SynthCheck compares declared aggregates on fully synthetic bundles. It does not measure privacy, linkage, record similarity, or clinical correctness. A passing group means the declared tolerance held for that query.</p>
+<h2>Provenance</h2>
+<ul>
+<li>reference seed 16, generator synthcheck-fixture-generator 0.1.0, rows {&#x27;patients&#x27;: 10, &#x27;tasks&#x27;: 10, &#x27;visits&#x27;: 10}</li>
+<li>candidate seed 16, generator synthcheck-fixture-generator 0.1.0, rows {&#x27;patients&#x27;: 10, &#x27;tasks&#x27;: 10, &#x27;visits&#x27;: 10}</li>
+</ul>
+<h2>Integrity</h2>
+<table><thead><tr><th>Side</th><th>Code</th><th>Finding</th></tr></thead><tbody>
+<tr><td colspan="3">No integrity findings.</td></tr>
+</tbody></table>
+<h2>distinct_visits_by_clinic</h2>
+<p>Formula: count of distinct visits.visit_id grouped by visits.clinic_id. Unit: visits. Tolerance: absolute 0. State: ok.</p>
+<table><thead><tr><th>Group</th><th>Reference</th><th>Candidate</th><th>Denominator</th><th>Absolute delta</th><th>Decision</th></tr></thead><tbody>
+<tr><td>clinic_id=north</td><td>5</td><td>5</td><td></td><td>0</td><td>pass</td></tr>
+<tr><td>clinic_id=south</td><td>5</td><td>5</td><td></td><td>0</td><td>pass</td></tr>
+</tbody></table>
+<h2>visit_follow_up_coverage_by_month</h2>
+<p>Formula: distinct visits with a follow_up task divided by distinct visits, grouped by clinic and month. Unit: proportion. Tolerance: absolute 0.05. State: ok.</p>
+<table><thead><tr><th>Group</th><th>Reference</th><th>Candidate</th><th>Denominator</th><th>Absolute delta</th><th>Decision</th></tr></thead><tbody>
+<tr><td>clinic_id=north, month=2024-01</td><td>0.8 (80.0%)</td><td>0.4 (40.0%)</td><td>reference 4/5, candidate 2/5</td><td>0.4</td><td>fail</td></tr>
+<tr><td>clinic_id=south, month=2024-01</td><td>0.8 (80.0%)</td><td>1 (100.0%)</td><td>reference 4/5, candidate 5/5</td><td>0.2</td><td>fail</td></tr>
+</tbody></table>
+<h2>distinct_assigned_tasks</h2>
+<p>Formula: count of distinct tasks.task_id. Unit: tasks. Tolerance: absolute 0. State: ok.</p>
+<table><thead><tr><th>Group</th><th>Reference</th><th>Candidate</th><th>Denominator</th><th>Absolute delta</th><th>Decision</th></tr></thead><tbody>
+<tr><td>(all)</td><td>10</td><td>10</td><td></td><td>0</td><td>pass</td></tr>
+</tbody></table>
+</body></html>

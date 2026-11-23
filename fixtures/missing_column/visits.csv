@@ -1,0 +1,11 @@
+visit_id,patient_id,clinic_id,visited_on
+V01,P01,north,2024-01-15
+V02,P02,north,2024-01-15
+V03,P03,north,2024-01-15
+V04,P04,north,2024-01-15
+V05,P05,north,2024-01-15
+V06,P06,south,2024-01-15
+V07,P07,south,2024-01-15
+V08,P08,south,2024-01-15
+V09,P09,south,2024-01-15
+V10,P10,south,2024-01-15

@@ -1,0 +1,70 @@
+{
+  "contract_version": "1",
+  "max_csv_bytes": 1000000,
+  "max_rows": 100000,
+  "queries": [
+    {
+      "formula": "distinct February visits divided by distinct February visits, grouped by the patient clinic",
+      "grain": [
+        {"column": "patients.clinic_id"}
+      ],
+      "id": "february_coverage_by_clinic",
+      "measure": {
+        "denominator": {
+          "column": "visits.visit_id",
+          "op": "count_distinct",
+          "where": {"column": "visits.visited_on", "op": "month_eq", "value": "2024-02"}
+        },
+        "numerator": {
+          "column": "visits.visit_id",
+          "op": "count_distinct",
+          "where": {"column": "visits.visited_on", "op": "month_eq", "value": "2024-02"}
+        },
+        "op": "ratio"
+      },
+      "tolerance": {"kind": "absolute", "value": 0.05},
+      "unit": "proportion"
+    }
+  ],
+  "tables": {
+    "patients": {
+      "columns": {
+        "clinic_id": {"nullable": false, "type": "string"},
+        "patient_id": {"nullable": false, "type": "string"}
+      },
+      "primary_key": ["patient_id"]
+    },
+    "tasks": {
+      "columns": {
+        "kind": {"nullable": false, "type": "string"},
+        "task_id": {"nullable": false, "type": "string"},
+        "visit_id": {"nullable": false, "type": "string"}
+      },
+      "foreign_keys": [
+        {
+          "columns": ["visit_id"],
+          "name": "tasks_visit_id_fkey",
+          "references": {"columns": ["visit_id"], "table": "visits"}
+        }
+      ],
+      "primary_key": ["task_id"]
+    },
+    "visits": {
+      "columns": {
+        "clinic_id": {"nullable": false, "type": "string"},
+        "patient_id": {"nullable": false, "type": "string"},
+        "visit_id": {"nullable": false, "type": "string"},
+        "visited_on": {"nullable": false, "type": "timestamp"}
+      },
+      "foreign_keys": [
+        {
+          "columns": ["patient_id"],
+          "name": "visits_patient_id_fkey",
+          "references": {"columns": ["patient_id"], "table": "patients"}
+        }
+      ],
+      "primary_key": ["visit_id"]
+    }
+  },
+  "timezone": "UTC"
+}
