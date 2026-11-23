@@ -1,0 +1,5 @@
+{
+  "contains_patient_rows": false,
+  "declaration": "fully_synthetic",
+  "description": "Fictional clinic placeholders generated locally by synthcheck-fixture-generator. No real person is described."
+}

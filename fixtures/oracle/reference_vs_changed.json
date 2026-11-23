@@ -1,0 +1,52 @@
+{
+  "case": "Equal row counts. Follow-up tasks were moved so north coverage falls from 4/5 to 2/5 and south rises from 4/5 to 5/5. Hand-counted. Absolute tolerance on coverage is 0.05.",
+  "distinct_assigned_tasks": [
+    {
+      "candidate": "10",
+      "decision": "pass",
+      "reference": "10"
+    }
+  ],
+  "distinct_visits_by_clinic": [
+    {
+      "candidate": "5",
+      "clinic_id": "north",
+      "decision": "pass",
+      "reference": "5"
+    },
+    {
+      "candidate": "5",
+      "clinic_id": "south",
+      "decision": "pass",
+      "reference": "5"
+    }
+  ],
+  "visit_follow_up_coverage_by_month": [
+    {
+      "absolute_delta": "0.4",
+      "candidate": "0.4",
+      "candidate_denominator": 5,
+      "candidate_numerator": 2,
+      "clinic_id": "north",
+      "decision": "fail",
+      "month": "2024-01",
+      "reference": "0.8",
+      "reference_denominator": 5,
+      "reference_numerator": 4,
+      "relative_delta": "0.5"
+    },
+    {
+      "absolute_delta": "0.2",
+      "candidate": "1",
+      "candidate_denominator": 5,
+      "candidate_numerator": 5,
+      "clinic_id": "south",
+      "decision": "fail",
+      "month": "2024-01",
+      "reference": "0.8",
+      "reference_denominator": 5,
+      "reference_numerator": 4,
+      "relative_delta": "0.25"
+    }
+  ]
+}

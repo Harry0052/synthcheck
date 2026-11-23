@@ -1,0 +1,204 @@
+{
+  "candidate": {
+    "generator": {
+      "name": "synthcheck-fixture-generator",
+      "seed": 16,
+      "version": "0.1.0"
+    },
+    "path": "fixtures/changed",
+    "provenance_sha256": "73397e0e26b53ef495cd93f8446b38b08801ab7de1560c3df5310e03f310ee73",
+    "row_counts": {
+      "patients": 10,
+      "tasks": 10,
+      "visits": 10
+    },
+    "table_sha256": {
+      "patients": "d5425b868e8b3afb864c77ce95fc7ae2f06ada8004206f4d07b14f36b1b7452e",
+      "tasks": "944ed2ac485b6dfaaf1ab40f439d4672628776c6099b2beda977db5f387920dc",
+      "visits": "36b8c5c80b0b9e198d64cf0e4352fdbb1840430ec0c17621b9992124f2371c1d"
+    }
+  },
+  "contract_path": "fixtures/contract/clinic.json",
+  "contract_version": "1",
+  "integrity": {
+    "candidate": [],
+    "reference": []
+  },
+  "limitations": "SynthCheck compares declared aggregates on fully synthetic bundles. It does not measure privacy, linkage, record similarity, or clinical correctness. A passing group means the declared tolerance held for that query.",
+  "queries": [
+    {
+      "formula": "count of distinct visits.visit_id grouped by visits.clinic_id",
+      "grain": [
+        "clinic_id"
+      ],
+      "groups": [
+        {
+          "absolute_delta": "0",
+          "candidate": {
+            "denominator": null,
+            "numerator": 5,
+            "state": "ok",
+            "value": "5"
+          },
+          "decision": "pass",
+          "key": {
+            "clinic_id": "north"
+          },
+          "reference": {
+            "denominator": null,
+            "numerator": 5,
+            "state": "ok",
+            "value": "5"
+          },
+          "relative_delta": "0"
+        },
+        {
+          "absolute_delta": "0",
+          "candidate": {
+            "denominator": null,
+            "numerator": 5,
+            "state": "ok",
+            "value": "5"
+          },
+          "decision": "pass",
+          "key": {
+            "clinic_id": "south"
+          },
+          "reference": {
+            "denominator": null,
+            "numerator": 5,
+            "state": "ok",
+            "value": "5"
+          },
+          "relative_delta": "0"
+        }
+      ],
+      "id": "distinct_visits_by_clinic",
+      "reasons": [],
+      "state": "ok",
+      "tolerance": {
+        "kind": "absolute",
+        "value": "0"
+      },
+      "unit": "visits"
+    },
+    {
+      "formula": "distinct visits with a follow_up task divided by distinct visits, grouped by clinic and month",
+      "grain": [
+        "clinic_id",
+        "month"
+      ],
+      "groups": [
+        {
+          "absolute_delta": "0.4",
+          "candidate": {
+            "denominator": 5,
+            "numerator": 2,
+            "state": "ok",
+            "value": "0.4"
+          },
+          "decision": "fail",
+          "key": {
+            "clinic_id": "north",
+            "month": "2024-01"
+          },
+          "reference": {
+            "denominator": 5,
+            "numerator": 4,
+            "state": "ok",
+            "value": "0.8"
+          },
+          "relative_delta": "0.5"
+        },
+        {
+          "absolute_delta": "0.2",
+          "candidate": {
+            "denominator": 5,
+            "numerator": 5,
+            "state": "ok",
+            "value": "1"
+          },
+          "decision": "fail",
+          "key": {
+            "clinic_id": "south",
+            "month": "2024-01"
+          },
+          "reference": {
+            "denominator": 5,
+            "numerator": 4,
+            "state": "ok",
+            "value": "0.8"
+          },
+          "relative_delta": "0.25"
+        }
+      ],
+      "id": "visit_follow_up_coverage_by_month",
+      "reasons": [],
+      "state": "ok",
+      "tolerance": {
+        "kind": "absolute",
+        "value": "0.05"
+      },
+      "unit": "proportion"
+    },
+    {
+      "formula": "count of distinct tasks.task_id",
+      "grain": [],
+      "groups": [
+        {
+          "absolute_delta": "0",
+          "candidate": {
+            "denominator": null,
+            "numerator": 10,
+            "state": "ok",
+            "value": "10"
+          },
+          "decision": "pass",
+          "key": {},
+          "reference": {
+            "denominator": null,
+            "numerator": 10,
+            "state": "ok",
+            "value": "10"
+          },
+          "relative_delta": "0"
+        }
+      ],
+      "id": "distinct_assigned_tasks",
+      "reasons": [],
+      "state": "ok",
+      "tolerance": {
+        "kind": "absolute",
+        "value": "0"
+      },
+      "unit": "tasks"
+    }
+  ],
+  "reference": {
+    "generator": {
+      "name": "synthcheck-fixture-generator",
+      "seed": 16,
+      "version": "0.1.0"
+    },
+    "path": "fixtures/reference",
+    "provenance_sha256": "73397e0e26b53ef495cd93f8446b38b08801ab7de1560c3df5310e03f310ee73",
+    "row_counts": {
+      "patients": 10,
+      "tasks": 10,
+      "visits": 10
+    },
+    "table_sha256": {
+      "patients": "d5425b868e8b3afb864c77ce95fc7ae2f06ada8004206f4d07b14f36b1b7452e",
+      "tasks": "556ba4925d1bb38bf41ed7f3eea5ed499d5263bc0a20ea3e1004b8a05f3bfacb",
+      "visits": "36b8c5c80b0b9e198d64cf0e4352fdbb1840430ec0c17621b9992124f2371c1d"
+    }
+  },
+  "report_version": "1",
+  "summary": {
+    "integrity": "pass",
+    "queries": "fail",
+    "status": "fail"
+  },
+  "synthcheck_version": "0.1.0",
+  "timezone": "UTC"
+}
